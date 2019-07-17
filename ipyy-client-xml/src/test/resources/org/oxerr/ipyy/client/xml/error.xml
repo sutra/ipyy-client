@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<returnsms>
+	<returnstatus>Faild</returnstatus>
+	<message>需要签名</message>
+	<remainpoint>0</remainpoint>
+	<taskID></taskID>
+	<successCounts>0</successCounts>
+</returnsms>
