@@ -7,7 +7,9 @@ import java.io.InputStream;
 import java.util.Arrays;
 import java.util.List;
 
+import org.apache.http.HttpHost;
 import org.apache.http.NameValuePair;
+import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.fluent.Request;
 import org.apache.http.client.fluent.Response;
 import org.apache.http.message.BasicNameValuePair;
@@ -19,6 +21,10 @@ public class IPYYClient {
 
 	private final String account;
 	private final String password;
+
+	private Integer socketTimeout;
+	private Integer connectTimeout;
+	private HttpHost proxy;
 
 	private final ReturnSMSUnmarshaller returnSMSUnmarshaller;
 
@@ -32,6 +38,55 @@ public class IPYYClient {
 		this.returnSMSUnmarshaller = returnSMSUnmarshaller;
 		this.account = account;
 		this.password = password;
+	}
+
+	/**
+	 * Defines the socket timeout ({@code SO_TIMEOUT}) in milliseconds,
+	 * which is the timeout for waiting for data or, put differently,
+	 * a maximum period inactivity between two consecutive data packets.
+	 * <p>
+	 * A timeout value of zero is interpreted as an infinite timeout.
+	 * A negative value is interpreted as undefined (system default).
+	 * </p>
+	 * <p>
+	 * Default: {@code -1}
+	 * </p>
+	 * @param socketTimeout the timeout for waiting for data or,
+	 * put differently, a maximum period inactivity between two consecutive
+	 * data packets.
+	 * @see RequestConfig#getSocketTimeout()
+	 */
+	public void setSocketTimeout(Integer socketTimeout) {
+		this.socketTimeout = socketTimeout;
+	}
+
+	/**
+	 * Determines the timeout in milliseconds until a connection is established.
+	 * A timeout value of zero is interpreted as an infinite timeout.
+	 * <p>
+	 * A timeout value of zero is interpreted as an infinite timeout.
+	 * A negative value is interpreted as undefined (system default).
+	 * </p>
+	 * <p>
+	 * Default: {@code -1}
+	 * </p>
+	 * @param connectTimeout the timeout in milliseconds until a connection is established
+	 * @see RequestConfig#getConnectTimeout()
+	 */
+	public void setConnectTimeout(Integer connectTimeout) {
+		this.connectTimeout = connectTimeout;
+	}
+
+	/**
+	 * The HTTP proxy to be used for request execution.
+	 * <p>
+	 * Default: {@code null}
+	 * </p>
+	 * @param proxy the HTTP proxy
+	 * @see RequestConfig#getProxy()
+	 */
+	public void setProxy(HttpHost proxy) {
+		this.proxy = proxy;
 	}
 
 	public ReturnSMS send(String mobile, String content) throws IOException {
@@ -49,7 +104,17 @@ public class IPYYClient {
 			new BasicNameValuePair("sendTime", ""),
 			new BasicNameValuePair("extno", "")
 		);
-		Response response = Request.Post(url).bodyForm(nvps, UTF_8).execute();
+		Request request = Request.Post(url);
+		if (this.socketTimeout != null) {
+			request.socketTimeout(this.socketTimeout);
+		}
+		if (this.connectTimeout != null) {
+			request.connectTimeout(this.connectTimeout);
+		}
+		if (this.proxy != null) {
+			request.viaProxy(this.proxy);
+		}
+		Response response = request.bodyForm(nvps, UTF_8).execute();
 		try (InputStream is = response.returnContent().asStream()) {
 			return this.returnSMSUnmarshaller.unmarshal(is);
 		}
