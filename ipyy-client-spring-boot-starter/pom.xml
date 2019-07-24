@@ -11,18 +11,18 @@
 		<artifactId>ipyy-client</artifactId>
 		<version>1.1.1-SNAPSHOT</version>
 	</parent>
-	<artifactId>ipyy-client-spring-boot</artifactId>
-	<name>IPYY Client Spring Boot</name>
-	<description>IPYY Client Spring Boot</description>
+	<artifactId>ipyy-client-spring-boot-starter</artifactId>
+	<name>IPYY Client Spring Boot Starter</name>
+	<description>IPYY Client Spring Boot Starter</description>
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot</artifactId>
+			<artifactId>spring-boot-starter</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-configuration-processor</artifactId>
-			<optional>true</optional>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>ipyy-client-spring-boot-autoconfigure</artifactId>
+			<version>${project.version}</version>
 		</dependency>
 	</dependencies>
 </project>

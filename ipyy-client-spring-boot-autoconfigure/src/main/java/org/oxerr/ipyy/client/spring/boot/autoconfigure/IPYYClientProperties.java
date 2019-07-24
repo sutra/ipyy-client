@@ -1,8 +1,12 @@
-package org.oxerr.ipyy.client;
+package org.oxerr.ipyy.client.spring.boot.autoconfigure;
+
+import javax.validation.constraints.NotEmpty;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.validation.annotation.Validated;
 
 @ConfigurationProperties(prefix = IPYYClientProperties.PREFIX)
+@Validated
 public class IPYYClientProperties {
 
 	static final String PREFIX = "org.oxerr.ipyy.client";
@@ -15,6 +19,7 @@ public class IPYYClientProperties {
 
 	private String proxy;
 
+	@NotEmpty
 	public String getAccount() {
 		return account;
 	}
