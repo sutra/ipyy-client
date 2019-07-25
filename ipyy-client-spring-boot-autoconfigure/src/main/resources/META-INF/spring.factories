@@ -1,0 +1,2 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+org.oxerr.ipyy.client.spring.boot.autoconfigure.IPYYClientAutoConfiguration
