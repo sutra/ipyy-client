@@ -9,7 +9,7 @@
 	<parent>
 		<groupId>org.oxerr.ipyy</groupId>
 		<artifactId>ipyy-client</artifactId>
-		<version>1.2.0</version>
+		<version>1.2.1-SNAPSHOT</version>
 	</parent>
 	<artifactId>ipyy-client-xml</artifactId>
 	<name>IPYY Client XML Implementation</name>
